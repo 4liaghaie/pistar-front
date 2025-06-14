@@ -7,7 +7,7 @@ import Image from "next/image";
 function buildUrl(imageData) {
   const path = imageData?.formats?.medium?.url || imageData?.url;
   if (!path) return null;
-  return path.startsWith("/") ? "https://api.muhsinzade.com" + path : path;
+  return path.startsWith("/") ? "https://api.pistaragency.com" + path : path;
 }
 
 // Modal component for image gallery
@@ -116,7 +116,7 @@ export default function ReferencesList({ references }) {
         const res = await Promise.all(
           ref.images.map((img) =>
             fetch(
-              `https://api.muhsinzade.com/api/images/${img.documentId}?populate=*`
+              `https://api.pistaragency.com/api/images/${img.documentId}?populate=*`
             ).then((r) => r.json())
           )
         );
