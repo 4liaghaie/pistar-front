@@ -10,11 +10,13 @@ export default function Navbar({ categories = [] }) {
   useEffect(() => {
     async function fetchLogo() {
       try {
-        const res = await fetch("http://localhost:1337/api/logo?populate=*");
+        const res = await fetch(
+          "https://api.muhsinzade.com/api/logo?populate=*"
+        );
         const data = await res.json();
         const logo =
           data?.data?.img?.formats?.medium?.url || data?.data?.img?.url;
-        const baseUrl = "http://localhost:1337";
+        const baseUrl = "https://api.muhsinzade.com";
         setLogoUrl(logo ? baseUrl + logo : "");
       } catch (error) {
         console.error("Error fetching logo:", error);

@@ -8,7 +8,7 @@ import ReferencesList from "@/components/ReferencesList";
 import styles from "./[category]/page.module.css";
 async function getReferencesData() {
   const res = await fetch(
-    "http://localhost:1337/api/references?populate=*",
+    "https://api.muhsinzade.com/api/references?populate=*",
     { cache: "no-store" } // Disable caching to always get fresh data
   );
   if (!res.ok) {
@@ -24,7 +24,7 @@ export default function Home() {
     async function load() {
       try {
         const res = await fetch(
-          "http://localhost:1337/api/references?populate=*",
+          "https://api.muhsinzade.com/api/references?populate=*",
           { cache: "no-store" }
         );
         if (!res.ok) throw new Error("Failed to fetch references");
@@ -58,7 +58,7 @@ export default function Home() {
     });
 
     try {
-      const res = await fetch(`http://localhost:1337/api/images?${qs}`);
+      const res = await fetch(`https://api.muhsinzade.com/api/images?${qs}`);
       const json = await res.json();
 
       // Filter by `home` flag (supports either flat or attributes-based shape)
@@ -159,7 +159,7 @@ export default function Home() {
           const imageUrl = image?.url
             ? image.url.startsWith("http")
               ? image.url
-              : `http://localhost:1337${image.url}`
+              : `https://api.muhsinzade.com${image.url}`
             : null;
 
           const fixedWidth = 600;
@@ -220,7 +220,7 @@ export default function Home() {
               src={
                 currentImage.image.url.startsWith("http")
                   ? currentImage.image.url
-                  : `http://localhost:1337${currentImage.image.url}`
+                  : `https://api.muhsinzade.com${currentImage.image.url}`
               }
               alt={currentImage.alt || currentImage.Title || "Gallery Image"}
               layout="intrinsic"

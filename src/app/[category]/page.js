@@ -30,7 +30,7 @@ export default function CategoryGallery() {
     setIsFetching(true);
     try {
       const res = await fetch(
-        `http://localhost:1337/api/images?populate=*&filters[categories][Title][$eq]=${category}&pagination[page]=${pageNumber}&pagination[pageSize]=${pageSize}`
+        `https://api.muhsinzade.com/api/images?populate=*&filters[categories][Title][$eq]=${category}&pagination[page]=${pageNumber}&pagination[pageSize]=${pageSize}`
       );
       const json = await res.json();
 
@@ -135,7 +135,7 @@ export default function CategoryGallery() {
           const imageUrl = image?.url
             ? image.url.startsWith("http")
               ? image.url
-              : `http://localhost:1337${image.url}`
+              : `https://api.muhsinzade.com${image.url}`
             : null;
 
           // Use a fixed width and compute dynamic height based on aspect ratio
@@ -198,7 +198,7 @@ export default function CategoryGallery() {
               src={
                 currentImage.image.url.startsWith("http")
                   ? currentImage.image.url
-                  : `http://localhost:1337${currentImage.image.url}`
+                  : `https://api.muhsinzade.com${currentImage.image.url}`
               }
               alt={currentImage.alt || currentImage.Title || "Gallery Image"}
               layout="intrinsic"
