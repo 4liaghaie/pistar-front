@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  margin-top: 100px;
+}
+
+.stickyImage {
+  /* Adjust positioning as needed */
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  z-index: -1;
+}
+
+/* This wrapper ensures the image is a circle */
+.circleWrapper {
+  position: relative;
+  width: 35vh; /* Ensure width equals height */
+  height: 18vh;
+
+  overflow: hidden;
+}
+.aboutContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (min-width: 770px) {
+  .container {
+    width: 45vw;
+    margin-left: 100px;
+  }
+  .aboutContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: self-start;
+  }
+  .stickyImage {
+    margin-top: 200px;
+  }
+}
