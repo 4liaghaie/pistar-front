@@ -3,27 +3,38 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Navbar({ categories = [] }) {
-  const [logoUrl, setLogoUrl] = useState("");
+  const [logoLight, setLogoLight] = useState(""); // <─ light-theme logo
+  const [logoDark, setLogoDark] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  const mediaUrl = (raw) => {
+    if (!raw) return "";
+
+    // Strapi “multiple media” → first item in the array
+    if (Array.isArray(raw)) raw = raw[0];
+
+    // Choose the medium format when it exists, otherwise original
+    const url = raw?.formats?.medium?.url ?? raw?.url ?? "";
+    return url ? "https://api.pistaragency.com" + url : "";
+  };
   useEffect(() => {
-    async function fetchLogo() {
+    (async () => {
       try {
         const res = await fetch(
           "https://api.pistaragency.com/api/logo?populate=*"
         );
-        const data = await res.json();
-        const logo =
-          data?.data?.img?.formats?.medium?.url || data?.data?.img?.url;
-        const baseUrl = "https://api.pistaragency.com";
-        setLogoUrl(logo ? baseUrl + logo : "");
-      } catch (error) {
-        console.error("Error fetching logo:", error);
+        const json = await res.json();
+
+        setLogoLight(mediaUrl(json?.data?.img));
+        setLogoDark(mediaUrl(json?.data?.img_dark)); // <- now resolves!
+      } catch (err) {
+        console.error("Logo fetch failed:", err);
       }
-    }
-    fetchLogo();
+    })();
   }, []);
+
+  const currentLogo = darkMode && logoDark ? logoDark : logoLight;
 
   // Update the root element to have the "dark" class when darkMode is enabled
   useEffect(() => {
@@ -163,10 +174,11 @@ export default function Navbar({ categories = [] }) {
       {/* Desktop Top Bar using a 3-column grid for proper centering */}
       <div className="hidden md:grid grid-cols-3 items-center">
         {/* Left Column: Logo */}
+        {/* Left col: Logo */}
         <div className="flex justify-start">
-          {logoUrl ? (
+          {currentLogo ? (
             <Link href="/">
-              <img src={logoUrl} alt="Pistar" className="h-12 w-auto" />
+              <img src={currentLogo} alt="Pistar" className="h-12 w-auto" />
             </Link>
           ) : (
             <div className="h-10 w-10 bg-gray-300" />
@@ -262,9 +274,9 @@ export default function Navbar({ categories = [] }) {
         </div>
         {/* Right: Logo */}
         <div className="flex items-center">
-          {logoUrl ? (
+          {currentLogo ? (
             <Link href="/">
-              <img src={logoUrl} alt="Pistar" className="h-12 w-auto" />
+              <img src={currentLogo} alt="Pistar" className="h-12 w-auto" />
             </Link>
           ) : (
             <div className="h-10 w-10 bg-gray-300" />
